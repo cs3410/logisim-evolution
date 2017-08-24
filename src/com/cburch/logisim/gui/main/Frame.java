@@ -426,6 +426,16 @@ public class Frame extends LFrame implements LocaleListener {
 
 		attrPanel.add(attrFooter, BorderLayout.SOUTH);
 
+		// Reset vertical and horizontal split sizes if one side is not visible
+		double leftSplitSize = AppPreferences.WINDOW_LEFT_SPLIT.get().doubleValue();
+		if (leftSplitSize <= 0 || leftSplitSize >= 1) {
+			AppPreferences.WINDOW_LEFT_SPLIT.set(0.5);
+		}
+		double mainSplitSize = AppPreferences.WINDOW_MAIN_SPLIT.get().doubleValue();
+		if (mainSplitSize <= 0 || mainSplitSize >= 1) {
+			AppPreferences.WINDOW_MAIN_SPLIT.set(0.25);
+		}
+
 		leftRegion = new HorizontalSplitPane(explPanel, attrPanel,
 				AppPreferences.WINDOW_LEFT_SPLIT.get().doubleValue());
 
