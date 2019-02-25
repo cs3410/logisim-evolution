@@ -195,7 +195,7 @@ public class ProgramAssembler {
                                                                                                           // risc-v
                                                                                                           // register
                                                                                                           // names
-    static String __pc = "(pc|PC)";
+    static String __pc = "(?:pc|PC)";
     static String __hex = "0x[a-fA-F0-9]+";
     static String __decimal = "-?\\d+";
     static String __label = "[a-zA-Z]\\w*";
