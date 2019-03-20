@@ -119,7 +119,6 @@ public class LogisimVersion {
 
 	private LogisimVersion(int major, int minor, int release, int revision,
 			String variant) {
-		System.out.println(variant);
 		this.major = major;
 		this.minor = minor;
 		this.release = release;
