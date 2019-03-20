@@ -956,6 +956,11 @@ public class ProgramAssembler {
                     imm = (imm - addr);
                 }
 
+                if ((imm & 1) != 0) {
+                    throw new ParseException("line " + (lineno + 1) + ": invalid jal offset (" + imm + "): offset must be divisible by 2");
+
+                }
+
                 // Shift 21 bit immediate over by 1 to fit in encoding
                 imm = (imm >>> 1) & 0xfffff;
 
@@ -967,12 +972,11 @@ public class ProgramAssembler {
                 }
 
                 // Adjust immediates to be in correct bit positions for RISC-V
-                // well formed encoding: i[19] | i[9:0] | i[10] | i[18:11] | rd | opcode
+                // well formed encoding: i[20] | i[10:1] | i[11] | i[19:12] | rd | opcode
                 int i20 = ((imm >>> 19) & 1) << 31;
-                int i10_1 = (imm & 0x1ff) << 21;
-                int i11 = ((imm >>> 9) & 1) << 20;
-                int i19_12 = ((imm >>> 10) & 0xff) << 12;
-
+                int i10_1 = ((imm>>>0) & 0x3ff) << 21;
+                int i11 = ((imm >>> 10) & 1) << 20;
+                int i19_12 = ((imm >>> 11) & 0xff) << 12;
                 // return well formed encoding
                 return i20 | i10_1 | i11 | i19_12 | (dest << 7) | opcode;
             } catch (NumberFormatException e) {
@@ -993,9 +997,9 @@ public class ProgramAssembler {
             // determine immediate
             int i19_12 = (instr >>> 12) & 0xff;
             int i11 = (instr >>> 20) & 1;
-            int i10_1 = (instr >>> 21) & 0x1ff;
+            int i10_1 = (instr >>> 21) & 0x3ff;
             int i20 = (instr >>> 31) & 1;
-            int imm = (i20 << 18) | (i19_12 << 10) | (i11 << 9) | i10_1;
+            int imm = (i20 << 19) | (i19_12 << 11) | (i11 << 10) | (i10_1 << 0);
 
             imm <<= 1;
             // return 21 bit immediate as string in hex formatting
