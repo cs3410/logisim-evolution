@@ -37,6 +37,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import com.cburch.logisim.prefs.AppPreferences;
 
 public class GraphicsUtil {
 	static public void drawArrow(Graphics g, int x0, int y0, int x1, int y1,
@@ -91,6 +92,7 @@ public class GraphicsUtil {
 
 	static public void drawText(Graphics g, String text, int x, int y,
 			int halign, int valign) {
+		g.setFont(AppPreferences.getScaledFont(g.getFont()));
 		if (text.length() == 0)
 			return;
 		Rectangle bd = getTextBounds(g, text, x, y, halign, valign);
@@ -101,6 +103,7 @@ public class GraphicsUtil {
 			int halign, int valign, Color fg, Color bg) {
 		if (text.length() == 0)
 			return;
+
 		Rectangle bd = getTextBounds(g, text, x, y, halign, valign);
 		if(g instanceof Graphics2D) {
 			((Graphics2D) g).setPaint(bg);

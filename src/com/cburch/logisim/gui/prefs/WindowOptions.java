@@ -110,7 +110,7 @@ class WindowOptions extends OptionsPanel {
 		panel.add(toolbarPlacement.getJComboBox());
 		
 		ZoomLabel.setText("Zoom factor:");
-		ZoomValue = new ZoomSlider(JSlider.HORIZONTAL,80,300,(int)(AppPreferences.SCALE_FACTOR.get()*100));
+		ZoomValue = new ZoomSlider(JSlider.HORIZONTAL,40,300,(int)(AppPreferences.SCALE_FACTOR.get()*100));
 		
 		panel.add(new JLabel(" "));
 		panel.add(new JLabel(" "));
