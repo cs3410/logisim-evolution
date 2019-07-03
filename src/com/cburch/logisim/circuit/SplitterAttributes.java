@@ -368,6 +368,7 @@ class SplitterAttributes extends AbstractAttributeSet {
 			appear = appearance;
 			parameters = null;
 		} else if (attr instanceof BitOutAttribute) {
+
 			BitOutAttribute bitOutAttr = (BitOutAttribute) attr;
 			int val;
 			if (value instanceof Integer) {

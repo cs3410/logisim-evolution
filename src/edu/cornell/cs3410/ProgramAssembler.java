@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class ProgramAssembler {
 
-    private static final int NO_OP = 0;
+    private static final int NO_OP = 0x13; //really?  completely separate from other nops
 
     private ProgramAssembler() {
 
@@ -452,7 +452,7 @@ public class ProgramAssembler {
         }
 
         int encode(int lineno, int addr, String args, HashMap<String, Integer> hashmap) throws IOException {
-            return 0;
+            return 0x13;
         }
     }
 
@@ -1158,8 +1158,10 @@ public class ProgramAssembler {
         Command cmd = null;
         String name = "";
         boolean invalid;
-
-        if (op == 0x6f) {
+        if (instr == 0x13) { //addi x0, x0, 0
+            name = "nop";
+        }
+        else if (op == 0x6f) {
             name = "jal";
         } else if (op == 0x67) {
             name = "jalr";
@@ -1287,8 +1289,6 @@ public class ProgramAssembler {
                 invalid = true;
                 break;
             }
-        } else if (op == 0) {
-            name = "nop";
         }
 
         cmd = cmds.get(name);

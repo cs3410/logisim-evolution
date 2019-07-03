@@ -289,6 +289,7 @@ class SelectionAttributes extends AbstractAttributeSet {
 
 	@Override
 	public <V> void setValue(Attribute<V> attr, V value) {
+
 		Circuit circ = canvas.getCircuit();
 		if (selected.isEmpty() && circ != null) {
 			circ.getStaticAttributes().setValue(attr, value);

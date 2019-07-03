@@ -64,6 +64,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuItem;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.AbstractAction;
+import com.cburch.logisim.data.Attribute;
+
 import com.bfh.logisim.hdlgenerator.HDLColorRenderer;
 import com.cburch.logisim.prefs.AppPreferences;
 import com.cburch.logisim.util.JDialogOk;
@@ -194,7 +201,7 @@ public class AttrTable extends JPanel implements LocaleListener {
 								Strings.get("attributeChangeInvalidTitle"),
 								JOptionPane.WARNING_MESSAGE);
 					}
-					editor = null; 
+					editor = null;
 				} else if (editor instanceof JInputComponent) {
 					JInputComponent input = (JInputComponent) editor;
 					MyDialog dlog;
@@ -466,7 +473,7 @@ public class AttrTable extends JPanel implements LocaleListener {
 			return new Dimension(1, ret.height);
 		}
 	}
-	
+
 	private static final AttrTableModel NULL_ATTR_MODEL = new NullAttrModel();
 	private Window parent;
 	private boolean titleEnabled;
@@ -490,6 +497,7 @@ public class AttrTable extends JPanel implements LocaleListener {
 		table.setTableHeader(null);
 		table.setRowHeight(AppPreferences.getScaled(AppPreferences.BoxSize));
 
+		table.addMouseListener(new PopUpTrigger());
 
 		Font baseFont = title.getFont();
 		int titleSize = Math.round(baseFont.getSize() * 1.2f);
@@ -514,6 +522,64 @@ public class AttrTable extends JPanel implements LocaleListener {
 		LocaleManager.addLocaleListener(this);
 		localeChanged();
 	}
+	//=============================
+	class PopUp extends JPopupMenu {
+		JMenuItem setAll;
+		public PopUp(final MouseEvent em) {
+				setAll = new JMenuItem(new AbstractAction("Set all selected to...") {
+				    public void actionPerformed(ActionEvent e) {
+
+							JComboBox comboBox = (JComboBox) tableModel.attrModel.getRow(table.rowAtPoint(em.getPoint())).getEditor(parent);
+
+							Object[] content = {"Set to what val?","Currently changing " + Integer.toString(table.getSelectedRows().length) + " attributes.",comboBox};
+
+							int confirm = JOptionPane.showConfirmDialog(null,
+						    content,"Batch change",JOptionPane.OK_CANCEL_OPTION);
+
+								if (confirm == JOptionPane.CANCEL_OPTION) return;
+
+								try {
+									Object ans = comboBox.getSelectedItem();
+									for(int a: table.getSelectedRows()) tableModel.attrModel.getRow(a).setValue(ans);
+								} catch (AttrTableSetException ex) {
+									JOptionPane.showMessageDialog(parent, ex.getMessage(),
+											Strings.get("attributeChangeInvalidTitle"),
+											JOptionPane.WARNING_MESSAGE);
+								}
+
+				    }
+				});
+				add(setAll);
+		}
+	}
+
+	public boolean arrContains(int[] arr, int n){
+		for(int i = 0; i< arr.length; i++){
+			if (arr[i]==n) return true;
+		}
+		return false;
+	}
+
+	class PopUpTrigger extends MouseAdapter {
+	    public void mousePressed(MouseEvent e) {
+	        if (e.isPopupTrigger()){
+	            	showPopUp(e);
+						}
+	    }
+
+	    public void mouseReleased(MouseEvent e) {
+	        if (e.isPopupTrigger()){
+	            	showPopUp(e);
+						}
+	    }
+
+	    private void showPopUp	(MouseEvent e) {
+	        PopUp menu = new PopUp(e);
+					menu.setAll.setEnabled(arrContains(table.getSelectedRows(), table.rowAtPoint(e.getPoint())));
+	        menu.show(e.getComponent(), e.getX(), e.getY());
+	    }
+	}
+	//=============================
 
 	public AttrTableModel getAttrTableModel() {
 		return tableModel.attrModel;
