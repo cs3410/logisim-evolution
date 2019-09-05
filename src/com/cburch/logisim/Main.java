@@ -92,7 +92,7 @@ public class Main {
 	final static Logger logger = LoggerFactory.getLogger(Main.class);
 
 	// Updated 3/27/2019 - Max Zhou for P3
-	public static final LogisimVersion VERSION = LogisimVersion.get(2, 14, 8, 1);
+	public static final LogisimVersion VERSION = LogisimVersion.get(2, 14, 8, 2);
 
 	public static final String VERSION_NAME = VERSION.toString();
 	public static final int COPYRIGHT_YEAR = 2018;
