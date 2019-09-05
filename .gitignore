@@ -48,7 +48,6 @@ Temporary Items
 com/bfh
 com/cburch
 com/hepia
-*.jar
 *.class
 
 # Generated files
