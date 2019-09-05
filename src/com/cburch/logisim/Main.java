@@ -109,6 +109,6 @@ public class Main {
 	/**
 	 * URL for the automatic updater
 	 */
-	public static final String UPDATE_URL = "http://www.cs.cornell.edu/courses/cs3410/2019sp/logisim/logisim_evolution_version.xml";
+	public static final String UPDATE_URL = "https://raw.githubusercontent.com/cs3410/logisim-evolution/master/production_files/logisim_evolution_version.xml";
 
 }
