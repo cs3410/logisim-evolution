@@ -31,58 +31,58 @@ public class ALU extends InstanceFactory {
         int shift = state.getPortValue(3).toIntValue();
         int ans = 0;
         switch (op) {
-        case 0xa:
-        case 0xb:
+        case 0xe:
+        case 0xf:
             ans = A << shift;
             break;
 
-        case 0x8:
-        case 0x9:
+        case 0x0:
+        case 0x1:
             ans = A + B;
             break;
 
-        case 0xe:
+        case 0xa:
             ans = A >>> shift; // logical
             break;
 
-        case 0xf:
+        case 0xb:
             ans = A >> shift; // arithmetic
             break;
 
-        case 0xc:
-        case 0xd:
+        case 0x4:
+        case 0x5:
             ans = A - B;
             break;
 
-        case 0x3:
+        case 0x2:
             ans = A & B;
             break;
 
-        case 0x1:
+        case 0x3:
             ans = A | B;
             break;
 
-        case 0x7:
+        case 0x6:
             ans = A ^ B;
             break;
 
-        case 0x5:
+        case 0x7:
             ans = ~(A | B);
             break;
 
-        case 0x0:
+        case 0x8:
             ans = (A != B) ? 0x1 : 0x0;
             break;
 
-        case 0x2:
+        case 0x9:
             ans = (A == B) ? 0x1 : 0x0;
             break;
 
-        case 0x4:
+        case 0xc:
             ans = (A <= 0) ? 0x1 : 0x0;
             break;
 
-        case 0x6:
+        case 0xd:
             ans = (A > 0) ? 0x1 : 0x0;
             break;
         }
