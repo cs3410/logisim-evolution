@@ -16,8 +16,6 @@ public class Components extends Library {
                 new AddTool(new RegisterFile32()),
                 new AddTool(new Program32()),
                 new AddTool(new ALU()),
-                new AddTool(new ALU2()), //Decode Black Box
-                new AddTool(new Bypass()),
                 new AddTool(new Comparator()),
                 new AddTool(new Incrementer()),
                 new AddTool(new Video()),
