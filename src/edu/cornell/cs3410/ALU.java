@@ -31,58 +31,91 @@ public class ALU extends InstanceFactory {
         int shift = state.getPortValue(3).toIntValue();
         int ans = 0;
         switch (op) {
-        case 0x2:
-        case 0x3:
+
+        /*
+        case 0x0: //0b0000
+        case 0x1: //0b0001
+        case 0x2: //0b0010
+        case 0x3: //0b0011
+        case 0x4: //0b0100
+        case 0x5: //0b0101
+        case 0x6: //0b0110
+        case 0x7: //0b0111
+        case 0x8: //0b1000
+        case 0x9: //0b1001
+        case 0xa: //0b1010
+        case 0xb: //0b1011
+        case 0xc: //0b1100
+        case 0xd: //0b1101
+        case 0xe: //0b1110
+        case 0xf: //0b1111
+        */
+
+        case 0x0: //0b0000
+        case 0x1: //0b0001
+            //SLL
             ans = A << shift;
             break;
 
-        case 0xe:
-        case 0xf:
+        case 0x2: //0b0010
+        case 0x3: //0b0011
+            //ADD
             ans = A + B;
             break;
 
-        case 0x6:
-            ans = A >>> shift; // logical
+        case 0xc: //0b1100
+            //SRL
+            ans = A >>> shift;
             break;
 
-        case 0x7:
-            ans = A >> shift; // arithmetic
+        case 0xd: //0b1101
+            //SRA
+            ans = A >> shift;
             break;
 
-        case 0xc:
-        case 0xd:
+        case 0x6: //0b0110
+        case 0x7: //0b0111
+            //SUB
             ans = A - B;
             break;
 
-        case 0x0:
+        case 0x4: //0b0100
+            //AND
             ans = A & B;
             break;
 
-        case 0x1:
+        case 0x5: //0b0101
+            //OR
             ans = A | B;
             break;
 
-        case 0x4:
+        case 0xa: //0b1010
+            //XOR
             ans = A ^ B;
             break;
 
-        case 0x5:
+        case 0xb: //0b1011
+            //NOR
             ans = ~(A | B);
             break;
 
-        case 0x8:
+        case 0x8: //0b1000
+            //NE
             ans = (A != B) ? 0x1 : 0x0;
             break;
 
-        case 0x9:
+        case 0x9: //0b1001
+            //EQ
             ans = (A == B) ? 0x1 : 0x0;
             break;
 
-        case 0xa:
+        case 0xe: //0b1110
+            //LE
             ans = (A <= 0) ? 0x1 : 0x0;
             break;
 
-        case 0xb:
+        case 0xf: //0b1111
+            //GT
             ans = (A > 0) ? 0x1 : 0x0;
             break;
         }
