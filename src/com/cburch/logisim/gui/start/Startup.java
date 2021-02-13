@@ -46,6 +46,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.CodeSource;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -95,6 +96,8 @@ import com.cburch.logisim.util.MacCompatibility;
 import com.cburch.logisim.util.StringUtil;
 import com.connectina.swing.fontchooser.JFontChooser;
 
+import edu.cornell.cs3410.RegFileTest;
+
 public class Startup implements AWTEventListener {
 
 	static void doOpen(File file) {
@@ -109,7 +112,7 @@ public class Startup implements AWTEventListener {
 		}
 	}
 
-	public static Startup parseArgs(String[] args) {
+	public static Startup parseArgs(String[] args) throws Exception {
 		// see whether we'll be using any graphics
 		boolean isTty = false;
 		boolean isClearPreferences = false;
@@ -284,6 +287,26 @@ public class Startup implements AWTEventListener {
 				/* This is to test a test bench. It will return 0 or 1 depending on if
 				 * the tests pass or not
 				 */
+			} else if (arg.equals("-testrisc")) {
+				i++;
+
+				if (i >= args.length)
+					printUsage();
+
+				String testRisc = args[i];
+
+				i++;
+
+				if (i >= args.length)
+					printUsage();
+
+				String file = args[i];
+
+				ret.showSplash = false;
+				ret.exitAfterStartup = true;
+
+				RegFileTest.runRiscTest(testRisc, file);
+				//not pretty, but the original RiscTest will just System.exit() to close the entire process so nothing more needs to be done here...
 			} else if (arg.equals("-test-fpga-implementation")) {
 				// already handled above
 				i++;
@@ -451,6 +474,7 @@ public class Startup implements AWTEventListener {
 	private boolean templPlain = false;
 	private ArrayList<File> filesToOpen = new ArrayList<File>();
 	private String testVector = null;
+	private String testRisc = null;
 	private String circuitToTest = null;
 	private boolean exitAfterStartup = false;
 	private boolean showSplash;
