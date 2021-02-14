@@ -60,7 +60,7 @@ public class ALU extends InstanceFactory {
         case 0x2: //0b0010
         case 0x3: //0b0011
             //SLL
-            ans = A << shift;
+            ans = B << shift;
             break;
 
         case 0x4: //0b0100
@@ -71,12 +71,12 @@ public class ALU extends InstanceFactory {
 
         case 0x6: //0b0110
             //SRL
-            ans = A >>> shift;
+            ans = B >>> shift;
             break;
 
         case 0x7: //0b0111
             //SRA
-            ans = A >> shift;
+            ans = B >> shift;
             break;
 
         case 0x8: //0b1000
